@@ -84,6 +84,8 @@ public class CladwareRestController {
             CladwareOrder cladwareOrder = orderOptional.get();
             if(cladwareOrder.getStatus().equalsIgnoreCase("Cancelled")){
                 return "Order is already cancelled";
+            }else if(cladwareOrder.getStatus().equalsIgnoreCase("Delivered")){
+                return "You cannot cancel a delivered order!";
             }
             cladwareOrder.setStatus("Cancelled");
             this.orderRepository.save(cladwareOrder);
@@ -102,6 +104,8 @@ public class CladwareRestController {
             CladwareOrder cladwareOrder = orderOptional.get();
             if(cladwareOrder.getStatus().equalsIgnoreCase("Cancelled")){
                 return "You cannot deliver a cancelled order!";
+            }else if(cladwareOrder.getStatus().equalsIgnoreCase("Delivered")){
+                return "You cannot redeliver!";
             }else{
                 cladwareOrder.setStatus("Delivered");
                 this.orderRepository.save(cladwareOrder);
