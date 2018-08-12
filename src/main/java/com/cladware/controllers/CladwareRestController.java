@@ -14,7 +14,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 public class CladwareRestController {
@@ -35,6 +38,13 @@ public class CladwareRestController {
         }else{
             return null;
         }
+    }
+
+    // expose all orders
+    @GetMapping("/orderCart/{orderId}")
+    public Cart getOrderCart(@PathVariable Long orderId){
+        Cart cart = this.orderRepository.findById(orderId).get().getCart();
+        return cart;
     }
 
     // get cart given the order

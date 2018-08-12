@@ -11,6 +11,7 @@
         <script src="js/jquery.js" th:src="@{/js/jquery.js}"></script>
         <script src="js/bootstrap.min.js" th:src="@{/js/bootstrap.min.js}"></script>
         <script src="js/main.js"  th:src="@{/js/main.js}"></script>
+        <script src="js/main.js"  th:src="@{/js/knockout.js}"></script>
     </head>
     <body>
         <nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top">
@@ -59,7 +60,8 @@
                                     <td th:text="${order.getPaymentMethod()}">Paypal</td>
                                     <td th:text="${order.getCardNumber()}">Paypal</td>
                                     <td th:text="${order.getStatus()}">Status</td>
-                                    <td><button class="btn btn-success btn-block" data-toggle="modal" data-target="#manageItemModal">Manage</button></td>
+                                    <td><button th:data-orderId="${order.getOrderId()}" class="btn btn-success btn-block" data-toggle="modal"
+                                                data-target="#manageItemModal" data-bind="event: {click: $root.loadCart}">Manage</button></td>
                                 </tr>
                             </th:block>
                             </tbody>
@@ -86,38 +88,12 @@
                             <ul class="list-group">
                                 <li class="list-group-item bg-dark text-light text-center">Shopping Cart</li>
                                 <li class="list-group-item">
-                                    <div class="row">
-                                        <div class="col-2">1</div>
-                                        <div class="col-5">Nice Stuff</div>
-                                        <div class="col-3">Ksh. <span>1200</span></div>
-                                    </div>
-                                </li>
-                                <li class="list-group-item">
-                                    <div class="row">
-                                        <div class="col-2">1</div>
-                                        <div class="col-5">Nice Stuff</div>
-                                        <div class="col-3">Ksh. <span>1200</span></div>
-                                    </div>
-                                </li>
-                                <li class="list-group-item">
-                                    <div class="row">
-                                        <div class="col-2">1</div>
-                                        <div class="col-5">Nice Stuff</div>
-                                        <div class="col-3">Ksh. <span>1200</span></div>
-                                    </div>
-                                </li>
-                                <li class="list-group-item">
-                                    <div class="row">
-                                        <div class="col-2">1</div>
-                                        <div class="col-5">Nice Stuff</div>
-                                        <div class="col-3">Ksh. <span>1200</span></div>
-                                    </div>
-                                </li>
-                                <li class="list-group-item">
-                                    <div class="row">
-                                        <div class="col-2">1</div>
-                                        <div class="col-5">Nice Stuff</div>
-                                        <div class="col-3">Ksh. <span>1200</span></div>
+                                    <div data-bind="foreach: cartItems">
+                                        <div class="row">
+                                            <div class="col-2" data-bind="text: $index() + 1">1</div>
+                                            <div class="col-5" data-bind="text: name">Nice Stuff</div>
+                                            <div class="col-3" data-bind="text: unitPrice">Ksh. <span>1200</span></div>
+                                        </div>
                                     </div>
                                 </li>
                             </ul>
@@ -133,4 +109,25 @@
             </div>
         </div>
     </body>
+
+
+<!-- Script to load  order cart items from the server, give order ID -->
+<script>
+
+    function Cart(){
+        var self = this;
+        self.cartItems = ko.observableArray();
+        self.loadCart = function(data, data2){
+            var orderId = $(data2.currentTarget).attr("data-orderId");
+            var url = "/orderCart/" + orderId;
+            $.getJSON(url, function(cart){
+                self.cartItems(cart.items);
+            });
+        }
+    }
+
+    // apply view model to the DOM
+    ko.applyBindings(new Cart());
+
+</script>
 </html>
