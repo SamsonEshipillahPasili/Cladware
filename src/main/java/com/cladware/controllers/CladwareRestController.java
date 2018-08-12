@@ -12,6 +12,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Collection;
@@ -62,5 +63,22 @@ public class CladwareRestController {
         Optional<Item> itemOptional = this.itemRepository.findById(code);
         // return null if the item does not exist.
         return itemOptional.orElse(null);
+    }
+
+
+    @PostMapping("/cancelOrder/{id}")
+    public String cancelOrder(@PathVariable Long id){
+
+        final Optional<CladwareOrder> orderOptional = this.orderRepository.findById(id);
+        if(orderOptional.isPresent()){
+            // proceed to mark it as canceled
+            CladwareOrder cladwareOrder = orderOptional.get();
+            cladwareOrder.setStatus("Cancelled");
+            this.orderRepository.save(cladwareOrder);
+            return "Ok";
+        }else{
+            // redirect to the manage orders page, safely.
+            return "Internal Server Error";
+        }
     }
 }
