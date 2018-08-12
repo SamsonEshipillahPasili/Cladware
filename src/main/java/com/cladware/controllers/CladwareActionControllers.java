@@ -102,7 +102,6 @@ public class CladwareActionControllers {
     }
 
 
-
     @PostMapping("/addItem")
     public String addItem(@RequestParam String code, @RequestParam String name, @RequestParam int unitPrice,
                           @RequestParam int quantity, @RequestParam String description, @RequestParam MultipartFile itemPicture) throws IOException {

@@ -32,6 +32,7 @@
             <div class="row mb-2  mt-2">
                 <div class="col-7">
                     <div th:if="${param.orderPlaced}" class="alert alert-success">Order Placed Successfully!</div>
+                    <div th:if="${param.error}" class="alert alert-danger">There was an error placing your order.</div>
                     <div class="card">
                         <div class="card-header">
                             <div class="card-title">
