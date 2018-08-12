@@ -10,6 +10,7 @@ import com.cladware.services.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
@@ -19,7 +20,6 @@ import java.security.Principal;
 
 @Controller
 public class CladwareActionControllers {
-    //Denno 0719232933, Kelvin 0712252304
     @Autowired
     private CladwareUserRepository cladwareUserRepository;
     private BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
@@ -93,6 +93,12 @@ public class CladwareActionControllers {
         cladwareUser.getCart().clearCart();
         this.cladwareUserRepository.save(cladwareUser);
         return "redirect:/order";
+    }
+
+    @PostMapping("/deleteItem")
+    public String deleteItem(@RequestParam String code){
+        this.itemRepository.deleteById(code);
+        return "redirect:/admin/inventory?deleted";
     }
 
 

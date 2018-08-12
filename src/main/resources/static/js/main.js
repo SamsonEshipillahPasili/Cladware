@@ -222,5 +222,15 @@ function updateItem(){
     $("#updateItemForm").submit();
 }
 
+// function to delete the specified item
+function deleteItem(){
+    // get the update item form
+    var form = $("#updateItemForm");
+    // change it's action to point to the 'deleteItem' endpoint
+    form.attr("action", "/deleteItem");
+    // submit the form
+    form.submit();
+}
+
 
 

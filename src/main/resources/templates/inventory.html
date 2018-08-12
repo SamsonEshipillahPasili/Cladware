@@ -31,6 +31,7 @@
             <center>
                 <div id="inventoryBanner">
                     <h2>Inventory</h2>
+                    <h4 th:if="${param.deleted}">Deleted!</h4>
                     <div class="ml-2 mr-2">
                         <table id="inventoryTable" class="table table-bordered">
                             <thead class="thead-dark">
@@ -84,12 +85,20 @@
                             <form method="POST" action="#" th:action="@{/addItem}" id="updateItemForm" enctype="multipart/form-data">
                                 <label>Item Code</label>
                                 <input type="text" class="form-control disabled" required="required" placeholder="Item Code" id="modCode" name="code" />
-                                <input type="text" class="form-control mt-2 " placeholder="Item Name" id="modName" name="name" />
-                                <input type="text" class="form-control mt-2"  required="required"placeholder="Price Per Unit" id="modUnitPrice" name="unitPrice" />
-                                <input type="text" class="form-control mt-2" required="required" placeholder="Quantity" id="modQuantity" name="quantity" />
-                                <textarea class="form-control mt-2" required="required" placeholder="Item Description" id="modDescription" name="description"></textarea>
-                                <input type="file" onchange="trackUpdateItemPhotoChanges(event)" class="form-control form-control-file mt-2" placeholder="Select Image" id="modItemPicture" name="itemPicture" />
-                                <button type="button" class="btn btn-danger btn-lg mt-2 btn-block" onclick="updateItem()">Edit Item</button>
+                                <label class="mt-2">Item Name</label>
+                                <input type="text" class="form-control" placeholder="Item Name" id="modName" name="name" />
+                                <label class="mt-2">Price Per Unit</label>
+                                <input type="text" class="form-control"  required="required"placeholder="Price Per Unit" id="modUnitPrice" name="unitPrice" />
+                                <label class="mt-2">Quantity</label>
+                                <input type="text" class="form-control" required="required" placeholder="Quantity" id="modQuantity" name="quantity" />
+                                <label class="mt-2">Item Description</label>
+                                <textarea class="form-control" required="required" placeholder="Item Description" id="modDescription" name="description"></textarea>
+                                <label class="mt-2">Select Image</label>
+                                <input type="file" onchange="trackUpdateItemPhotoChanges(event)" class="form-control form-control-file" placeholder="Select Image" id="modItemPicture" name="itemPicture" />
+                                <div class="row">
+                                    <div class="col-6"><button type="button" class="btn btn-block btn-outline-success btn-lg mt-2" onclick="updateItem()">Edit Item</button></div>
+                                    <div class="col-6"><button type="button" class="btn btn-block btn-outline-danger btn-lg mt-2" onclick="deleteItem()">Delete Item</button></div><
+                                </div>
                             </form>
                         </div>
                     </div>
