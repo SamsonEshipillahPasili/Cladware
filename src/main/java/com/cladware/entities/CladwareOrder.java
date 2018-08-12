@@ -33,4 +33,8 @@ public class CladwareOrder implements Serializable{
     @Column
     @Lob
     private Cart cart;
+
+    public CladwareOrder(){
+        this.date = new Date();
+    }
 }

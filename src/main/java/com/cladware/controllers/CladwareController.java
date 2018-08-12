@@ -1,5 +1,6 @@
 package com.cladware.controllers;
 
+import com.cladware.entities.CladwareOrder;
 import com.cladware.entities.CladwareUser;
 import com.cladware.repositories.CladwareUserRepository;
 import com.cladware.repositories.ItemRepository;
@@ -15,6 +16,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.http.HttpSession;
 import java.security.Principal;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 
 // controller class contains methods that map user requests to themselves.
 @Controller
@@ -67,7 +71,21 @@ public class CladwareController {
 
     @GetMapping("/admin/manageOrders")
     public String manageOrders(Principal principal, Model model){
-        model.addAttribute("orders", this.orderRepository.findAll());
+        Comparator<CladwareOrder> cladwareOrderComparator = (a, b) -> {
+            if(a.getOrderId() > b.getOrderId()){
+                return -1;
+            }else if(a.getOrderId() < b.getOrderId()){
+                return 1;
+            }else{
+                return 0;
+            }
+        };
+        List<CladwareOrder> orderList = new ArrayList<>();
+
+        this.orderRepository.findAll().forEach(cOrder -> orderList.add(cOrder));
+        orderList.sort(cladwareOrderComparator);
+
+        model.addAttribute("orders", orderList);
         return "manage_orders";
     }
 

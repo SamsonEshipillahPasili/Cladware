@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -48,13 +49,9 @@ public class CladwareRestController {
         return cart;
     }
 
-    // get cart given the order
-    @GetMapping("/order/{id}/")
-    public Cart getCart(@PathVariable  long id){
-       if(orderRepository.existsById(id)){
-           return orderRepository.findById(id).get().getCart();
-       }
-       return null;
+    @GetMapping("/getOrder/{id}")
+    public CladwareOrder getOrderById(@PathVariable Long id){
+        return this.orderRepository.findById(id).orElse(null);
     }
 
     // get an item given the code
@@ -73,12 +70,34 @@ public class CladwareRestController {
         if(orderOptional.isPresent()){
             // proceed to mark it as canceled
             CladwareOrder cladwareOrder = orderOptional.get();
+            if(cladwareOrder.getStatus().equalsIgnoreCase("Cancelled")){
+                return "Order is already cancelled";
+            }
             cladwareOrder.setStatus("Cancelled");
             this.orderRepository.save(cladwareOrder);
             return "Ok";
         }else{
             // redirect to the manage orders page, safely.
-            return "Internal Server Error";
+            return "There is no order with the specified ID";
+        }
+    }
+
+    @PostMapping("/deliverOrder/{id}")
+    public String deliverOrder(@PathVariable Long id){
+        final Optional<CladwareOrder> orderOptional = this.orderRepository.findById(id);
+        if(orderOptional.isPresent()){
+            // check if the order has been cancelled.
+            CladwareOrder cladwareOrder = orderOptional.get();
+            if(cladwareOrder.getStatus().equalsIgnoreCase("Cancelled")){
+                return "You cannot deliver a cancelled order!";
+            }else{
+                cladwareOrder.setStatus("Delivered");
+                this.orderRepository.save(cladwareOrder);
+                return "Ok";
+            }
+        }else{
+            // redirect to the manage orders page, safely.
+            return "There is no order with the specified ID";
         }
     }
 }

@@ -224,12 +224,23 @@ function updateItem(){
 
 // function to delete the specified item
 function deleteItem(){
-    // get the update item form
-    var form = $("#updateItemForm");
-    // change it's action to point to the 'deleteItem' endpoint
-    form.attr("action", "/deleteItem");
-    // submit the form
-    form.submit();
+  swal({
+    title: "Are you sure?",
+    text: "Your will not be able to recover this item!",
+    type: "warning",
+    showCancelButton: true,
+    confirmButtonClass: "btn-danger",
+    confirmButtonText: "Yes, delete it!",
+    closeOnConfirm: false
+  },
+  function(){
+        // get the update item form
+        var form = $("#updateItemForm");
+        // change it's action to point to the 'deleteItem' endpoint
+        form.attr("action", "/deleteItem");
+        // submit the form
+        form.submit();
+  });
 }
 
 

@@ -103,8 +103,8 @@
                         </div>
                         <div class="card-footer">
                             <center>
-                                <button class="btn btn-outline-danger" data-bind="event: {click: cancelOrder}">Cancel Order</button>
-                                <button class="btn btn-outline-success">Deliver</button>
+                                <button id="cancelOrderBtn" class="btn btn-outline-danger" data-bind="event: {click: cancelOrder}">Cancel Order</button>
+                                <button id="deliverOrderBtn" class="btn btn-outline-success" data-bind="event: {click: deliverOrder}">Deliver</button>
                             </center>
                         </div>
                     </div>
@@ -120,6 +120,22 @@
         var self = this;
         self.cartItems = ko.observableArray();
         self.currentOrderId = ko.observable();
+        self.currentOrder = ko.observable();
+
+        self.deliverOrder = function(){
+            var orderId = self.currentOrderId();
+            var url = "/deliverOrder/" + orderId;
+            $.post(url, function(response){
+                if(response === "Ok"){
+                   swal("Success", "The order was successfully marked as delivered.", "success");
+                   setTimeout(function(){
+                       window.location = "/admin/manageOrders";
+                   }, 800);
+                }else{
+                    swal("Error", response, "error");
+                 }
+            });
+        }
 
         self.cancelOrder = function(){
             var orderId = self.currentOrderId();
@@ -138,7 +154,19 @@
         }
 
         self.loadCart = function(data, data2){
-            var orderId = $(data2.currentTarget).attr("data-orderId");
+             var orderId = $(data2.currentTarget).attr("data-orderId");
+             var orderURL = "/getOrder/" + orderId;
+
+             $.getJSON(orderURL, function(orderResponse){
+                 if(orderResponse.status !== "Undelivered"){
+                     $("#cancelOrderBtn").attr("class", "btn btn-outline-danger disabled");
+                     $("#deliverOrderBtn").attr("class", "btn btn-outline-success disabled");
+                 }else{
+                    $("#cancelOrderBtn").attr("class", "btn btn-outline-danger");
+                    $("#deliverOrderBtn").attr("class", "btn btn-outline-success");
+                 }
+             });
+
             var url = "/orderCart/" + orderId;
             $.getJSON(url, function(cart){
                 self.cartItems(cart.items);
