@@ -26,7 +26,7 @@ function validateRegistration(e) {
     var password = $("#password").val();
     var confirmPassword = $("#confirmPassword").val();
     var gender = $("#gender").val();
-    console.log(gender);
+    //var emailRegEx =
 
     if (fullname && email && password && confirmPassword) {
         if (fullname === "sam@gmail.com") {
@@ -38,8 +38,9 @@ function validateRegistration(e) {
         } else if (gender === "-- Select Gender --") {
             $("#registerMsg")
                     .text("Please select the gender!").fadeIn();
-        } else {
-           $("#registrationForm").submit();
+        }else {
+           //$("#registrationForm").submit();
+           $("#submitRegFormBtn").click();
         }
     } else {
         // notify user that all fields are required. 
@@ -149,7 +150,8 @@ function updatePassword(e){
             $("#updatePasswordMsg").fadeIn();
         }else{
             // continue with password update
-            $("#updatePasswordForm").submit();
+            //$("#updatePasswordForm").submit();
+            $("#submitUpdatePasswordForm").click();
         }
     }else{
         $("#updatePasswordMsg").fadeIn();
@@ -184,7 +186,8 @@ function validateAddItem(e){
 
     if(code && name && unitPrice && quantity && description && image){
          // all fields are set.
-         $("#addItemForm").submit();
+         //$("#addItemForm").submit();
+         $("#addItemSubmitBtn").click();
     }else{
         // issue warning message.
         $("#addItemMsg").fadeIn();
@@ -219,7 +222,8 @@ function trackUpdateItemPhotoChanges(e){
 }
 
 function updateItem(){
-    $("#updateItemForm").submit();
+    //$("#updateItemForm").submit();
+    $("#submitUpdateItemFormBtn").click();
 }
 
 // function to delete the specified item

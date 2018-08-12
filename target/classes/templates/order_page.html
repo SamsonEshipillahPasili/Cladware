@@ -42,8 +42,8 @@
                         <div class="card-body">
                             <p th:if="${cart.getSize() <= 0}">No items in the cart</p>
                             <form action="#" th:action="@{/placeOrder}" method="POST" th:if="${cart.getSize() > 0}">
-                                <input type="text" class="form-control mt-2" required="required" th:value="${name}" placeholder="Name" name="name" />
-                                <input type="text" class="form-control mt-2" required="required" placeholder="Phone Number" name="phoneNumber"/>
+                                <input type="text" pattern="[a-zA-z]+" class="form-control mt-2" required="required" th:value="${name}" placeholder="Name (Letters Only)" name="name" />
+                                <input type="text" class="form-control mt-2" pattern="[0-9]+"  required="required" placeholder="Phone Number (Digits Only)" name="phoneNumber"/>
                                 <label class="mt-2">Country</label>
                                 <select class="custom-select" name="country" required="required">
                                     <option></option>
@@ -51,7 +51,7 @@
                                     <option>Tanzania</option>
                                     <option>Uganda</option>
                                 </select>
-                                <input type="text" class="form-control mt-2" placeholder="Postal Address" required="required" name="postalAddress" />
+                                <input type="text" class="form-control mt-2" pattern="[0-9a-zA-Z]+" placeholder="Postal Address" required="required" name="postalAddress" />
                                 <label class="mt-2">Payment Method</label>
                                 <select class="custom-select" required="required" name="paymentMethod">
                                     <option></option>
@@ -59,14 +59,13 @@
                                     <option>Visa</option>
                                     <option>MoneyGram</option>
                                 </select>
-                                <input type="text" class="form-control mt-2" required="required" placeholder="Card Number" name="cardNumber" />
+                                <input type="text" class="form-control mt-2" pattern="[0-9]+" required="required" placeholder="Card Number (Digits Only)" name="cardNumber" />
                                 <button type="submit" class="btn mt-2 btn-block btn-outline-dark">Place Order</button>
                             </form> 
                         </div>
                     </div>
                 </div>
                 <div class="col-5">
-
                         <table class="table table-bordered">
                             <thead>
                                 <tr>

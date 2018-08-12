@@ -36,8 +36,9 @@
                     <h4 class="text-light" th:if="${param.invalidPassword}">Invalid password supplied. Check and try again.</h4>
                     <form method="POST" action="#" id="updatePasswordForm" th:action="@{/updatePassword}">
                         <input type="password" class="form-control mt-2 formField" placeholder="Old Password" id="oldPassword" name="oldPassword" />
-                        <input type="password" class="form-control mt-2 formField" placeholder="Password" id="newPassword" name="newPassword" />
+                        <input type="password"  pattern=".{6,}" class="form-control mt-2 formField" placeholder="Password (Mininum of 6 characters)" id="newPassword" name="newPassword" />
                         <input type="password" class="form-control mt-2 formField" placeholder="Confirm Password" id="confirmPassword" name="confirmPassword" />
+                        <button style="display: none" type="submit" id="submitUpdatePasswordForm"></button>
                     </form>
                     <button type="button" class="btn btn-danger btn-lg mt-2" onclick="updatePassword(event)">Update</button>
                 </div>

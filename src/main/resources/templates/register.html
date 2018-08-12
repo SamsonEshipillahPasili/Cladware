@@ -32,16 +32,17 @@
                     <h4 class="text-light" th:if="${param.success}">Successfully Registered. Click <a class="text-danger" th:href="@{/logInPage}">here</a> to sign in.</h4>
                     <h4 class="text-light" th:if="${param.duplicate}">The email already exists in our records!</h4>
                     <form method="POST" action="#" th:action="@{/registerNew}" id="registrationForm">
-                        <input type="text" class="form-control mt-2 formField" placeholder="Full Name" id="fullname" name="fullname" />
-                        <input type="text" class="form-control mt-2 formField" placeholder="Email" id="email"  name="email" />
-                        <input type="password" class="form-control mt-2 formField" placeholder="Password" id="password"  name="password" />
-                        <input type="password" class="form-control mt-2 formField" placeholder="Confirm Password" id="confirmPassword" name="confirmPassword" />
-                        <select class="custom-select formField mt-2" id="gender" name="gender">
+                        <input type="text" required="required" class="form-control mt-2 formField" placeholder="Full Name" id="fullname" name="fullname" />
+                        <input type="text" required="required" class="form-control mt-2 formField" placeholder="Email" id="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" name="email" />
+                        <input type="password" pattern=".{6,}" required="required" class="form-control mt-2 formField" placeholder="Password (min of 6 characters)" id="password"  name="password" />
+                        <input type="password" pattern=".{6,}" required="required" class="form-control mt-2 formField" placeholder="Confirm Password" id="confirmPassword" name="confirmPassword" />
+                        <select required="required" class="custom-select formField mt-2" id="gender" name="gender">
                             <option>-- Select Gender --</option>
                             <option>Male</option>
                             <option>Female</option>
                             <option>Other</option>
                         </select>
+                        <button type="submit" style="display: none" id="submitRegFormBtn"></button>
                     </form>
                     <button type="button" class="btn btn-danger btn-lg mt-2" onclick="validateRegistration(event)">Register</button>
                 </div>

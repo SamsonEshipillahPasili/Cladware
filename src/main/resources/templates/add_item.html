@@ -46,12 +46,13 @@
                         </div>
                         <div class="col-7">
                             <form method="POST" action="#" th:action="@{/addItem}" id="addItemForm" enctype="multipart/form-data">
-                                <input type="text" class="form-control mt-2 formField" placeholder="Item Code" id="code" name="code" />
-                                <input type="text" class="form-control mt-2 formField" placeholder="Item Name" id="name" name="name" />
-                                <input type="text" class="form-control mt-2 formField" placeholder="Price Per Unit" id="unitPrice" name="unitPrice" />
-                                <input type="text" class="form-control mt-2 formField" placeholder="Quantity" id="quantity" name="quantity" />
-                                <textarea class="form-control formField mt-2" placeholder="Item Description" id="description" name="description"></textarea>
-                                <input type="file" class="form-control form-control-file mt-2 formField" onchange="trackPhotoChanges(event)" id="itemPicture" placeholder="Select Image" name="itemPicture" />
+                                <input type="text" required="required" pattern="[0-9]+" class="form-control mt-2 formField" placeholder="Item Code (Digits Only)" id="code" name="code" />
+                                <input type="text" required="required" pattern="[a-zA-Z]+" class="form-control mt-2 formField" placeholder="Item Name (Letters Only)" id="name" name="name" />
+                                <input type="text" required="required" pattern="[0-9]+" class="form-control mt-2 formField" placeholder="Price Per Unit (Digits Only) " id="unitPrice" name="unitPrice" />
+                                <input type="text" required="required" pattern="[0-9]+"  class="form-control mt-2 formField" placeholder="Quantity (Digits Only)" id="quantity" name="quantity" />
+                                <textarea required="required" class="form-control formField mt-2" placeholder="Item Description" id="description" name="description"></textarea>
+                                <input required="required" type="file" class="form-control form-control-file mt-2 formField" onchange="trackPhotoChanges(event)" id="itemPicture" placeholder="Select Image" name="itemPicture" />
+                                <button style="display: none" type="submit" id="addItemSubmitBtn"></button>
                                 <button id="addItemBtn" type="button" class="btn btn-danger btn-lg mt-2" onclick="validateAddItem(event)">Add Item</button>
                             </form>
                         </div>

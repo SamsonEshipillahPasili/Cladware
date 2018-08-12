@@ -86,14 +86,14 @@
                         </div>
                         <div class="card-body">
                             <form method="POST" action="#" th:action="@{/addItem}" id="updateItemForm" enctype="multipart/form-data">
-                                <label>Item Code</label>
-                                <input type="text" class="form-control disabled" required="required" placeholder="Item Code" id="modCode" name="code" />
-                                <label class="mt-2">Item Name</label>
-                                <input type="text" class="form-control" placeholder="Item Name" id="modName" name="name" />
-                                <label class="mt-2">Price Per Unit</label>
-                                <input type="text" class="form-control"  required="required"placeholder="Price Per Unit" id="modUnitPrice" name="unitPrice" />
-                                <label class="mt-2">Quantity</label>
-                                <input type="text" class="form-control" required="required" placeholder="Quantity" id="modQuantity" name="quantity" />
+                                <label>Item Code (Digits Only)</label>
+                                <input type="text" pattern="[0-9]+" class="form-control disabled" required="required" placeholder="Item Code" id="modCode" name="code" />
+                                <label class="mt-2">Item Name (Letters Only)</label>
+                                <input type="text" class="form-control" placeholder="Item Name" pattern="[a-zA-Z]+" id="modName" name="name" />
+                                <label class="mt-2">Price Per Unit (Digits Only)</label>
+                                <input type="text" class="form-control" pattern="[0-9]+"  required="required"placeholder="Price Per Unit" id="modUnitPrice" name="unitPrice" />
+                                <label class="mt-2">Quantity (Digits Only)</label>
+                                <input type="text" class="form-control" pattern="[0-9]+" required="required" placeholder="Quantity" id="modQuantity" name="quantity" />
                                 <label class="mt-2">Item Description</label>
                                 <textarea class="form-control" required="required" placeholder="Item Description" id="modDescription" name="description"></textarea>
                                 <label class="mt-2">Select Image</label>
@@ -102,6 +102,7 @@
                                     <div class="col-6"><button type="button" class="btn btn-block btn-outline-success btn-lg mt-2" onclick="updateItem()">Edit Item</button></div>
                                     <div class="col-6"><button type="button" class="btn btn-block btn-outline-danger btn-lg mt-2" onclick="deleteItem()">Delete Item</button></div>
                                 </div>
+                                <button style="display: none" type="submit" id="submitUpdateItemFormBtn"></button>
                             </form>
                         </div>
                     </div>
