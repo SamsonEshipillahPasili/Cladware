@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Cladware | Inventory</title>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+        <link rel="stylesheet" href="css/bootstrap.css" th:href="@{/css/bootstrap.css}" type="text/css" />
+        <link rel="stylesheet" href="css/main.css" th:href="@{/css/main.css}" type="text/css" />
+
+        <script src="js/jquery.js" th:src="@{/js/jquery.js}"></script>
+        <script src="js/bootstrap.min.js" th:src="@{/js/bootstrap.min.js}"></script>
+        <script src="js/main.js"  th:src="@{/js/main.js}"></script>
+    </head>
+    <body>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top">
+            <a href="#" class="navbar-brand">Cladware Administrator</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item"><a href="#" class="nav-link active">Inventory</a></li>
+                    <li class="nav-item"><a th:href="@{/admin/addItem}" href="add_item.html" class="nav-link">Add Items</a></li>
+                    <li class="nav-item"><a href="manage_orders.html" th:href="@{/admin/manageOrders}" class="nav-link">Orders</a></li>
+                    <li class="nav-item"><a href="index.html" th:href="@{/logOut}" class="nav-link">Sign Out</a></li>
+                </ul>
+            </div>
+        </nav>
+        <div class="parallax first-header-container">  
+            <center>
+                <div id="inventoryBanner">
+                    <h2>Inventory</h2>
+                    <div class="ml-2 mr-2">
+                        <table id="inventoryTable" class="table table-bordered">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th>Code</th>
+                                    <th>Name</th>
+                                    <th>Description</th>
+                                    <th>Price Per Unit</th>
+                                    <th>Quantity</th>
+                                    <th>Image</th>
+                                    <th>Manage</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <th:block th:each="item : ${items}">
+                                    <tr>
+                                        <td th:text="${item.getCode()}">1234</td>
+                                        <td th:text="${item.getName()}">Polo Skirt</td>
+                                        <td th:text="${item.getDescription()}">A nice skirt indeed</td>
+                                        <td>Ksh. <span th:text="${item.getUnitPrice()}">5000</span></td>
+                                        <td th:text="${item.getQuantity()}">5</td>
+                                        <td><img class="tableProductImage" th:src="${item.imagePath()}" src="img/sample_image.jpg" alt="product image"/></td>
+                                        <td><button class="btn btn-danger btn-block" th:data-code="${item.getCode()}" onclick="loadItemDetails(event)" data-toggle="modal" data-target="#manageItemModal">Manage</button></td>
+                                    </tr>
+                                </th:block>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </center>
+        </div>
+        <footer class="footer">
+            <div class="container">
+                <center>
+                    <p>Cladware &copy 2018</p>
+                </center>
+            </div>
+        </footer>
+        
+        
+        <!-- Manage modal --> 
+        <div class="modal fade" id="manageItemModal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="card">
+                        <img src="img/sample_image.jpg" id="modalImage" alt="item image" />
+                        <div class="card-header">
+                            <div class="card-title text-center">Edit Item</div>
+                        </div>
+                        <div class="card-body">
+                            <form method="POST" action="#" th:action="@{/addItem}" id="updateItemForm" enctype="multipart/form-data">
+                                <label>Item Code</label>
+                                <input type="text" class="form-control disabled" required="required" placeholder="Item Code" id="modCode" name="code" />
+                                <input type="text" class="form-control mt-2 " placeholder="Item Name" id="modName" name="name" />
+                                <input type="text" class="form-control mt-2"  required="required"placeholder="Price Per Unit" id="modUnitPrice" name="unitPrice" />
+                                <input type="text" class="form-control mt-2" required="required" placeholder="Quantity" id="modQuantity" name="quantity" />
+                                <textarea class="form-control mt-2" required="required" placeholder="Item Description" id="modDescription" name="description"></textarea>
+                                <input type="file" onchange="trackUpdateItemPhotoChanges(event)" class="form-control form-control-file mt-2" placeholder="Select Image" id="modItemPicture" name="itemPicture" />
+                                <button type="button" class="btn btn-danger btn-lg mt-2 btn-block" onclick="updateItem()">Edit Item</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

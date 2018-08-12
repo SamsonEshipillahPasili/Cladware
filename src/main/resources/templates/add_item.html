@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html  xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Cladware | Add Item</title>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+        <link rel="stylesheet" href="css/bootstrap.css" th:href="@{/css/bootstrap.css}" type="text/css" />
+        <link rel="stylesheet" href="css/main.css" th:href="@{/css/main.css}" type="text/css" />
+
+        <script src="js/jquery.js" th:src="@{/js/jquery.js}"></script>
+        <script src="js/bootstrap.min.js" th:src="@{/js/bootstrap.min.js}"></script>
+        <script src="js/main.js"  th:src="@{/js/main.js}"></script>
+    </head>
+    <body>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top">
+            <a href="#" class="navbar-brand">Cladware Administrator</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item"><a href="inventory.html" th:href="@{/admin/inventory}" class="nav-link">Inventory</a></li>
+                    <li class="nav-item"><a href="#" class="active nav-link">Add Items</a></li>
+                    <li class="nav-item"><a href="manage_orders.html" th:href="@{/admin/manageOrders}" class="nav-link">Orders</a></li>
+                    <li class="nav-item"><a href="index.html" th:href="@{/logOut}" class="nav-link">Sign Out</a></li>
+                </ul>
+            </div>
+        </nav>
+        <div class="parallax first-header-container">  
+            <center>
+                <div id="addItemBanner">
+                    <h2>Add Item</h2>
+                    <h4 class="text-light" style="display: none" id="addItemMsg">All fields are required!</h4>
+                    <h4 th:if="${param.added}" class="text-light">The item was added successfully!</h4>
+                    <div class="row">
+                        <div class="col-5">
+                            <div class="card" id="uploadImageCard">
+                                <img src="img/sample_image.jpg" id="itemPreview" alt="sample image" class="card-img-top"/>
+                                <div class="card-body">
+                                    <div class="card-text">
+                                        Subaru.png
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-7">
+                            <form method="POST" action="#" th:action="@{/addItem}" id="addItemForm" enctype="multipart/form-data">
+                                <input type="text" class="form-control mt-2 formField" placeholder="Item Code" id="code" name="code" />
+                                <input type="text" class="form-control mt-2 formField" placeholder="Item Name" id="name" name="name" />
+                                <input type="text" class="form-control mt-2 formField" placeholder="Price Per Unit" id="unitPrice" name="unitPrice" />
+                                <input type="text" class="form-control mt-2 formField" placeholder="Quantity" id="quantity" name="quantity" />
+                                <textarea class="form-control formField mt-2" placeholder="Item Description" id="description" name="description"></textarea>
+                                <input type="file" class="form-control form-control-file mt-2 formField" onchange="trackPhotoChanges(event)" id="itemPicture" placeholder="Select Image" name="itemPicture" />
+                                <button id="addItemBtn" type="button" class="btn btn-danger btn-lg mt-2" onclick="validateAddItem(event)">Add Item</button>
+                            </form>
+                        </div>
+                    </div>
+                   
+                </div>
+            </center>
+        </div>
+        <footer class="footer">
+            <div class="container">
+                <center>
+                    <p>Cladware &copy 2018</p>
+                </center>
+            </div>
+        </footer>
+    </body>
+</html>

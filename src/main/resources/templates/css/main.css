@@ -1,0 +1,89 @@
+.first-header-container{
+    height: 700px;
+    background-image: url('../img/background.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+
+    padding-top: 150px;
+    color: white;
+}
+
+#banner{
+    position:relative;
+    padding-top:6%;
+    padding-bottom:6%;
+    margin-top:5%;
+    margin-bottom:12%;
+    background-color:rgba(0,0,0,0.7);
+    max-width:660px;
+}
+
+#logInBanner, #registerBanner{
+    position:relative;
+    padding-top:2%;
+    padding-bottom:6%;
+    margin-top:1%;
+    margin-bottom:12%;
+    background-color:rgba(0,0,0,0.7);
+    max-width:660px;
+}
+
+#addItemBanner{
+    position:relative;
+    margin-top: -130px;
+    padding-bottom:6%;
+    margin-bottom:12%;
+    background-color:rgba(0,0,0,0.7);
+    max-width:90%;
+    padding-top: 20px;
+}
+
+#inventoryBanner{
+    position: relative;
+    margin-top: -130px;
+    overflow-y: scroll;
+    padding-bottom:6%;
+    margin-bottom:12%;
+    background-color:rgba(0,0,0,0.7);
+    max-width:95%;
+    padding-top: 20px;
+    height: 650px;
+}
+
+#modalImage{
+    max-height: 200px;
+}
+
+.productImage{
+    max-height: 200px;
+}
+
+.tableProductImage{
+    width: 50px;
+    height: 50px;
+}
+
+#uploadImageCard{
+    max-width: 350px;
+    min-height: 150px;
+    
+}
+
+
+.formField, #addItemBtn{
+    width: 300px;
+}
+
+.footer{
+    background-color:#101010;
+    color:#9d9d9d;
+    font-size:14px;
+    font-weight:bold;
+    padding:10px;
+}
+
+
+.parallax{
+    background-attachment: fixed;
+}

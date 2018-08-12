@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Cladware | Orders</title>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+        <link rel="stylesheet" href="css/bootstrap.css" th:href="@{/css/bootstrap.css}" type="text/css" />
+        <link rel="stylesheet" href="css/main.css" th:href="@{/css/main.css}" type="text/css" />
+
+        <script src="js/jquery.js" th:src="@{/js/jquery.js}"></script>
+        <script src="js/bootstrap.min.js" th:src="@{/js/bootstrap.min.js}"></script>
+        <script src="js/main.js"  th:src="@{/js/main.js}"></script>
+    </head>
+    <body>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top">
+            <a href="#" class="navbar-brand">Cladware Administrator</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item"><a href="inventory.html" th:href="@{/admin/inventory}" class="nav-link">Inventory</a></li>
+                    <li class="nav-item"><a href="add_item.html" th:href="@{/admin/addItem}" class="nav-link">Add Items</a></li>
+                    <li class="nav-item"><a href="#" class="nav-link active">Orders</a></li>
+                    <li class="nav-item"><a href="index.html" th:href="@{/logOut}" class="nav-link">Sign Out</a></li>
+                </ul>
+            </div>
+        </nav>
+        <div class="parallax first-header-container">  
+            <center>
+                <div id="inventoryBanner">
+                    <h2>Orders</h2>
+                    <div class="ml-2 mr-2">
+                        <table id="inventoryTable" class="table table-bordered">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th>Order ID</th>
+                                    <th>Client Name</th>
+                                    <th>Phone Number</th>
+                                    <th>Country</th>
+                                    <th>Address</th>
+                                    <th>Order Amount</th>
+                                    <th>Payment Method</th>
+                                    <th>Card Number</th>
+                                    <th>Status</th>
+                                    <th>Order Items</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            <th:block th:each="order : ${orders}">
+                                <tr>
+                                    <td th:text="${order.getOrderId()}">1234</td>
+                                    <td th:text="${order.getName()}">Polo Skirt</td>
+                                    <td th:text="${order.getPhoneNumber()}">A nice skirt indeed</td>
+                                    <td th:text="${order.getCountry()}">5</td>
+                                    <td th:text="${order.getAddress()}">Address</td>
+                                    <td>Ksh. <span th:text="${order.getCart().getTotal()}">5000</span></td>
+                                    <td th:text="${order.getPaymentMethod()}">Paypal</td>
+                                    <td th:text="${order.getCardNumber()}">Paypal</td>
+                                    <td th:text="${order.getStatus()}">Status</td>
+                                    <td><button class="btn btn-success btn-block" data-toggle="modal" data-target="#manageItemModal">Manage</button></td>
+                                </tr>
+                            </th:block>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </center>
+        </div>
+        <footer class="footer">
+            <div class="container">
+                <center>
+                    <p>Cladware &copy 2018</p>
+                </center>
+            </div>
+        </footer>
+
+
+        <!-- Manage modal --> 
+        <div class="modal fade" id="manageItemModal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="card">
+                        <div class="card-body">
+                            <ul class="list-group">
+                                <li class="list-group-item bg-dark text-light text-center">Shopping Cart</li>
+                                <li class="list-group-item">
+                                    <div class="row">
+                                        <div class="col-2">1</div>
+                                        <div class="col-5">Nice Stuff</div>
+                                        <div class="col-3">Ksh. <span>1200</span></div>
+                                    </div>
+                                </li>
+                                <li class="list-group-item">
+                                    <div class="row">
+                                        <div class="col-2">1</div>
+                                        <div class="col-5">Nice Stuff</div>
+                                        <div class="col-3">Ksh. <span>1200</span></div>
+                                    </div>
+                                </li>
+                                <li class="list-group-item">
+                                    <div class="row">
+                                        <div class="col-2">1</div>
+                                        <div class="col-5">Nice Stuff</div>
+                                        <div class="col-3">Ksh. <span>1200</span></div>
+                                    </div>
+                                </li>
+                                <li class="list-group-item">
+                                    <div class="row">
+                                        <div class="col-2">1</div>
+                                        <div class="col-5">Nice Stuff</div>
+                                        <div class="col-3">Ksh. <span>1200</span></div>
+                                    </div>
+                                </li>
+                                <li class="list-group-item">
+                                    <div class="row">
+                                        <div class="col-2">1</div>
+                                        <div class="col-5">Nice Stuff</div>
+                                        <div class="col-3">Ksh. <span>1200</span></div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="card-footer">
+                            <center>
+                                <button class="btn btn-outline-danger">Cancel Order</button>
+                                <button class="btn btn-outline-success">Deliver</button>
+                            </center>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

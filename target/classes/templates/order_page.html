@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Cladware | Order Page</title>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+        <link rel="stylesheet" href="css/bootstrap.css" th:href="@{/css/bootstrap.css}" type="text/css" />
+        <link rel="stylesheet" href="css/main.css" th:href="@{/css/main.css}" type="text/css" />
+
+        <script src="js/jquery.js" th:src="@{/js/jquery.js}"></script>
+        <script src="js/bootstrap.min.js" th:src="@{/js/bootstrap.min.js}"></script>
+        <script src="js/main.js"  th:src="@{/js/main.js}"></script>
+    </head>
+    <body>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top">
+            <a href="#" class="navbar-brand">Cladware</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item"><a href="products.html" th:href="@{/dashboard}" class="nav-link">Dashboard</a></li>
+                    <li class="nav-item"><a href="#" class="active nav-link">Cart <span th:text="${cart.getSize()}" class="badge badge-danger">5</span></a></li>
+                    <li class="nav-item"><a href="settings.html" th:href="@{/settings}" class="nav-link">Settings</a></li>
+                    <li class="nav-item"><a href="log_in.html" th:href="@{/logOut}" class="nav-link">Sign Out</a></li>
+                </ul>
+            </div>
+        </nav>
+        
+        <div class="container">
+            <div class="row mb-2  mt-2">
+                <div class="col-7">
+                    <div th:if="${param.orderPlaced}" class="alert alert-success">Order Placed Successfully!</div>
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">
+                                <h3>Order Confirmation</h3>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <p th:if="${cart.getSize() <= 0}">No items in the cart</p>
+                            <form action="#" th:action="@{/placeOrder}" method="POST" th:if="${cart.getSize() > 0}">
+                                <input type="text" class="form-control mt-2" required="required" th:value="${name}" placeholder="Name" name="name" />
+                                <input type="text" class="form-control mt-2" required="required" placeholder="Phone Number" name="phoneNumber"/>
+                                <label class="mt-2">Country</label>
+                                <select class="custom-select" name="country" required="required">
+                                    <option></option>
+                                    <option>Kenya</option>
+                                    <option>Tanzania</option>
+                                    <option>Uganda</option>
+                                </select>
+                                <input type="text" class="form-control mt-2" placeholder="Postal Address" required="required" name="postalAddress" />
+                                <label class="mt-2">Payment Method</label>
+                                <select class="custom-select" required="required" name="paymentMethod">
+                                    <option></option>
+                                    <option>Paypal</option>
+                                    <option>Visa</option>
+                                    <option>MoneyGram</option>
+                                </select>
+                                <input type="text" class="form-control mt-2" required="required" placeholder="Card Number" name="cardNumber" />
+                                <button type="submit" class="btn mt-2 btn-block btn-outline-dark">Place Order</button>
+                            </form> 
+                        </div>
+                    </div>
+                </div>
+                <div class="col-5">
+
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Sr.No</th>
+                                    <th>Name</th>
+                                    <th>Price</th>
+                                    <th>Delete</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <th:block th:each="item, count : ${cart.getItems()}">
+                                    <tr>
+                                        <td th:text="${count.getCount()}">1</td>
+                                        <td th:text="${item.getName()}">Cakes</td>
+                                        <td th:text="${item.getUnitPrice()}">5</td>
+                                        <td>
+                                            <form th:action="@{/deleteFromCart}" method="POST">
+                                                <input type="text" hidden="hidden" th:value="${item.getCode()}"  name="code"/>
+                                                <button type="submit" class="btn btn-outline-dark">Remove</button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                </th:block>
+                                <tr th:if="${cart.getSize() > 0}">
+                                    <td>&nbsp;</td>
+                                    <td>Total</td>
+                                    <td th:text="${cart.getTotal()}">5</td>
+                                    <td >
+                                        <form th:action="@{/clearCart}" method="POST">
+                                            <button type="submit" class="btn btn-danger">Clear Cart</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Modal for displaying cladwareOrder items -->
+        
+        <footer class="footer">
+               <div class="container">
+               <center>
+                   <p>Cladware &copy 2018</p>
+               </center>
+               </div>
+           </footer>
+    </body>
+</html>
