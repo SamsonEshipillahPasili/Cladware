@@ -3,8 +3,10 @@ package com.cladware.controllers;
 import com.cladware.dto.Cart;
 import com.cladware.entities.CladwareOrder;
 import com.cladware.entities.Item;
+import com.cladware.pdf.PdfGenerator;
 import com.cladware.repositories.ItemRepository;
 import com.cladware.repositories.OrderRepository;
+import com.lowagie.text.DocumentException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.print.attribute.standard.Media;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
@@ -47,6 +50,15 @@ public class CladwareRestController {
     public Cart getOrderCart(@PathVariable Long orderId){
         Cart cart = this.orderRepository.findById(orderId).get().getCart();
         return cart;
+    }
+
+    // get pdf
+    @GetMapping("/pdf/report")
+    ResponseEntity<byte[]> getReport() throws DocumentException {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_PDF);
+        byte[] reportData = PdfGenerator.generatePdf();
+        return new ResponseEntity<>(reportData, headers, HttpStatus.OK);
     }
 
     @GetMapping("/getOrder/{id}")

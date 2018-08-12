@@ -2,6 +2,7 @@ package com.cladware.controllers;
 
 import com.cladware.entities.CladwareOrder;
 import com.cladware.entities.CladwareUser;
+import com.cladware.entities.Item;
 import com.cladware.repositories.CladwareUserRepository;
 import com.cladware.repositories.ItemRepository;
 import com.cladware.repositories.OrderRepository;
@@ -16,9 +17,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.http.HttpSession;
 import java.security.Principal;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 // controller class contains methods that map user requests to themselves.
 @Controller
@@ -87,6 +93,35 @@ public class CladwareController {
 
         model.addAttribute("orders", orderList);
         return "manage_orders";
+    }
+
+    @GetMapping("/report")
+    public String getReport(Model model){
+        Predicate<CladwareOrder> orderPredicate = cladwareOrder -> {
+            DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+            String todayDate = df.format(new Date());
+            String orderDate = df.format(cladwareOrder.getDate());
+
+            String orderStatus = cladwareOrder.getStatus();
+
+            if(todayDate.equalsIgnoreCase(orderDate) && orderStatus.equalsIgnoreCase("Delivered")){
+                return true;
+            }
+            return false;
+        };
+
+        List<CladwareOrder> orderList = new ArrayList<>();
+        this.orderRepository.findAll().forEach(orderList::add);
+        final List<Item> itemList = orderList.stream()
+                .filter(orderPredicate)
+                .flatMap(cladwareOrder -> cladwareOrder.getCart().getItems().stream())
+                .collect(Collectors.toList());
+        final int totalSum = itemList.stream().mapToInt(item -> item.getUnitPrice()).sum();
+
+        model.addAttribute("items", itemList);
+        model.addAttribute("sum", totalSum);
+
+        return "report";
     }
 
     @GetMapping("/order")

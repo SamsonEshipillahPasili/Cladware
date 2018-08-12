@@ -1,73 +1,53 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
     <head>
-        <title>Cladware | Products</title>
+        <title>Cladware | Report</title>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-        <link rel="stylesheet" href="css/bootstrap.css" th:href="@{/css/bootstrap.css}" type="text/css" />
+        <link rel="stylesheet" href="css/bootstrap_no_print.css" th:href="@{/css/bootstrap_no_print.css}" type="text/css" />
         <link rel="stylesheet" href="css/main.css" th:href="@{/css/main.css}" type="text/css" />
-
-        <script src="js/jquery.js" th:src="@{/js/jquery.js}"></script>
-        <script src="js/bootstrap.min.js" th:src="@{/js/bootstrap.min.js}"></script>
-        <script src="js/main.js"  th:src="@{/js/main.js}"></script>
     </head>
     <body>
-        <nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top">
-            <a href="#" class="navbar-brand">Cladware</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" />
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                 <ul class="navbar-nav ml-auto">
-                    <li class="nav-item"><a href="#" class="active nav-link">Dashboard</a></li>
-                    <li class="nav-item"><a href="order_page.html" th:href="@{/order}" class="nav-link">Cart <span th:text="${cart.getSize()}" class="badge badge-danger">5</span></a></li>
-                    <li class="nav-item"><a href="#" th:href="@{/settings}" class="nav-link">Settings</a></li>
-                    <li class="nav-item"><a href="log_in.html" th:href="@{/logOut}" class="nav-link">Sign Out</a></li>
-                </ul>
-                <!--<ul class="navbar-nav ml-auto">
-                    <li class="nav-item"><a href="log_in.html" class="nav-link">Sign In</a></li>
-                </ul>-->
-            </div>
-        </nav>
-
-
         <div class="container">
              <center>
                 <div id="productsBanner">
-                    <h2>Select from the best brands, selected across the world!</h2>
+                    <h2>Cladware Daily Report</h2>
+                    <h4>A report on the items sold today</h4>
                 </div>
             </center>
 
-            <th:block th:each="row : ${rows}">
-                <div class="row mt-2 mb-2">
-                    <th:block th:each="item : ${row}">
-                        <div class="col-3">
-                            <div class="card">
-                                <img src="img/sample_image.jpg" th:src="${item.imagePath()}" alt="product" class="productImage" />
-                                <div class="card-body">
-                                    <h4 class="card-title text-center" th:text="${item.getName()}">Polo Skirt</h4>
-                                    <p class="card-text text-center" th:text="${item.getDescription()}">A very nice skirt to have!</p>
-                                    <h4 class="text-center">Ksh. <span th:text="${item.getUnitPrice()}">3000</span></h4>
-                                    <center>
-                                        <form th:action="@{/addToCart}" method="POST">
-                                            <input type="text" hidden="hidden" th:value="${item.getCode()}" name="code"/>
-                                            <button type="submit" class="btn btn-danger">Add to cart</button>
-                                        </form>
-                                    </center>
-                                </div>
-                            </div>
-                        </div>
-                    </th:block>
-                </div>
-            </th:block>
+            <div>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>No.</th>
+                            <th>Name</th>
+                            <th>Unit Price</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <th:block th:each="item, count : ${items}">
+                            <tr>
+                                <td th:text="${count.getCount()}">1</td>
+                                <td th:text="${item.getName()}">Item</td>
+                                <td>Ksh. <span th:text="${item.getUnitPrice()}">500</span></td>
+                            </tr>
+                        </th:block>
+                        <tr th:if="${items.size() > 0}">
+                            <td></td>
+                            <td style="font-weight: bold">Total</td>
+                            <td>Ksh. <span style="font-weight: bold" th:text="${sum}">500</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
-        <!-- Add to cart modal -->
 
         <footer class="footer">
             <div class="container">
                 <center>
-                    <p>Cladware &copy 2018</p>
+                    <p>Cladware &copy; 2018</p>
                 </center>
             </div>
         </footer>
