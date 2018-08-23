@@ -47,7 +47,7 @@ public class CladwareRestController {
 
     // expose all orders
     @GetMapping("/orderCart/{orderId}")
-    public Cart getOrderCart(@PathVariable Long orderId){
+    public Cart getOrderCart(@PathVariable String orderId){
         Cart cart = this.orderRepository.findById(orderId).get().getCart();
         return cart;
     }
@@ -57,12 +57,20 @@ public class CladwareRestController {
     ResponseEntity<byte[]> getReport() throws DocumentException {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_PDF);
-        byte[] reportData = PdfGenerator.generatePdf();
+        byte[] reportData = PdfGenerator.generatePdf("http://localhost:8086/report");
+        return new ResponseEntity<>(reportData, headers, HttpStatus.OK);
+    }
+
+    @GetMapping("/pdf/{receiptId}/receipt")
+    ResponseEntity<byte[]> getReceipt(@PathVariable String receiptId) throws DocumentException {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_PDF);
+        byte[] reportData = PdfGenerator.generatePdf("http://localhost:8086/receipt/" + receiptId);
         return new ResponseEntity<>(reportData, headers, HttpStatus.OK);
     }
 
     @GetMapping("/getOrder/{id}")
-    public CladwareOrder getOrderById(@PathVariable Long id){
+    public CladwareOrder getOrderById(@PathVariable String id){
         return this.orderRepository.findById(id).orElse(null);
     }
 
@@ -76,7 +84,7 @@ public class CladwareRestController {
 
 
     @PostMapping("/cancelOrder/{id}")
-    public String cancelOrder(@PathVariable Long id){
+    public String cancelOrder(@PathVariable String id){
 
         final Optional<CladwareOrder> orderOptional = this.orderRepository.findById(id);
         if(orderOptional.isPresent()){
@@ -97,7 +105,7 @@ public class CladwareRestController {
     }
 
     @PostMapping("/deliverOrder/{id}")
-    public String deliverOrder(@PathVariable Long id){
+    public String deliverOrder(@PathVariable String id){
         final Optional<CladwareOrder> orderOptional = this.orderRepository.findById(id);
         if(orderOptional.isPresent()){
             // check if the order has been cancelled.

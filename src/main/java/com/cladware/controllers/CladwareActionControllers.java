@@ -3,6 +3,7 @@ package com.cladware.controllers;
 import com.cladware.entities.CladwareOrder;
 import com.cladware.entities.CladwareUser;
 import com.cladware.entities.Item;
+import com.cladware.entities.Receipt;
 import com.cladware.repositories.CladwareUserRepository;
 import com.cladware.repositories.ItemRepository;
 import com.cladware.repositories.OrderRepository;
@@ -10,11 +11,11 @@ import com.cladware.services.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.security.Principal;
 
@@ -29,6 +30,8 @@ public class CladwareActionControllers {
     private ItemService itemService;
     @Autowired
     private OrderRepository orderRepository;
+    @Autowired
+    private HttpSession session;
 
     @PostMapping("/registerNew")
     public String register(@RequestParam String fullname, @RequestParam String email,
@@ -148,13 +151,14 @@ public class CladwareActionControllers {
                 cladwareOrder.setPhoneNumber(phoneNumber);
                 cladwareOrder.setPaymentMethod(paymentMethod);
                 cladwareOrder.setStatus("Undelivered");
-
+                cladwareOrder.setOrderId(principal.getName() + "_" + System.currentTimeMillis());
                 CladwareUser cladwareUser = this.cladwareUserRepository.findById(principal.getName()).get();
                 cladwareOrder.setCart(cladwareUser.getCart());
 
                 this.orderRepository.save(cladwareOrder);
 
-                return "redirect:/order?orderPlaced";
+               return "redirect:/pdf/" + cladwareOrder.getOrderId() + "/receipt";
+
             }catch(Exception e){
                 e.printStackTrace();
                 return "redirect:/order?error";

@@ -42,7 +42,7 @@
                         <div class="card-body">
                             <p th:if="${cart.getSize() <= 0}">No items in the cart</p>
                             <form action="#" th:action="@{/placeOrder}" method="POST" th:if="${cart.getSize() > 0}">
-                                <input type="text" pattern="[a-zA-z]+" class="form-control mt-2" required="required" th:value="${name}" placeholder="Name (Letters Only)" name="name" />
+                                <input type="text" readonly="readonly" class="form-control mt-2" required="required" th:value="${name}" placeholder="Name (Letters Only)" name="name" />
                                 <input type="text" class="form-control mt-2" pattern="[0-9]+"  required="required" placeholder="Phone Number (Digits Only)" name="phoneNumber"/>
                                 <label class="mt-2">Country</label>
                                 <select class="custom-select" name="country" required="required">

@@ -3,6 +3,7 @@ package com.cladware.controllers;
 import com.cladware.entities.CladwareOrder;
 import com.cladware.entities.CladwareUser;
 import com.cladware.entities.Item;
+import com.cladware.entities.Receipt;
 import com.cladware.repositories.CladwareUserRepository;
 import com.cladware.repositories.ItemRepository;
 import com.cladware.repositories.OrderRepository;
@@ -10,10 +11,7 @@ import com.cladware.services.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import java.security.Principal;
@@ -78,22 +76,28 @@ public class CladwareController {
     @GetMapping("/admin/manageOrders")
     public String manageOrders(Principal principal, Model model){
         Comparator<CladwareOrder> cladwareOrderComparator = (a, b) -> {
-            if(a.getOrderId() > b.getOrderId()){
-                return -1;
-            }else if(a.getOrderId() < b.getOrderId()){
-                return 1;
-            }else{
-                return 0;
-            }
+           int value = a.getOrderId().compareTo(b.getOrderId());
+           value = value == -1 ? 1 : value;
+           value = value == 1 ? -1 : value;
+           return value;
         };
         List<CladwareOrder> orderList = new ArrayList<>();
 
-        this.orderRepository.findAll().forEach(cOrder -> orderList.add(cOrder));
+        this.orderRepository.findAll().forEach(orderList::add);
         orderList.sort(cladwareOrderComparator);
 
         model.addAttribute("orders", orderList);
         return "manage_orders";
     }
+
+    @GetMapping("/receipt/{orderId}")
+    public String getReceipt(@PathVariable String orderId, Model model){
+        CladwareOrder cladwareOrder = this.orderRepository.findById(orderId).get();
+        model.addAttribute("order", cladwareOrder);
+        return "receipt";
+    }
+
+
 
     @GetMapping("/report")
     public String getReport(Model model){

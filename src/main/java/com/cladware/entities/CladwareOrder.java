@@ -12,8 +12,7 @@ import java.util.Date;
 public class CladwareOrder implements Serializable{
     @Id
     @Column
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private long orderId;
+    private String orderId;
     @Column
     private String name;
     @Column
@@ -33,6 +32,7 @@ public class CladwareOrder implements Serializable{
     @Column
     @Lob
     private Cart cart;
+
 
     public CladwareOrder(){
         this.date = new Date();
