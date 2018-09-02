@@ -48,7 +48,6 @@
                                         <th>Address</th>
                                         <th>Order Amount</th>
                                         <th>Payment Method</th>
-                                        <th>Card Number</th>
                                         <th>Status</th>
                                         <th>Order Items</th>
                                     </tr>
@@ -63,7 +62,6 @@
                                             <td th:text="${order.getAddress()}">Address</td>
                                             <td>Ksh. <span th:text="${order.getCart().getTotal()}">5000</span></td>
                                             <td th:text="${order.getPaymentMethod()}">Paypal</td>
-                                            <td th:text="${order.getCardNumber()}">Paypal</td>
                                             <td th:text="${order.getStatus()}">Status</td>
                                             <td><button th:data-orderId="${order.getOrderId()}" class="btn btn-success btn-block" data-toggle="modal"
                                                         data-target="#manageItemModal" data-bind="event: {click: $root.loadCart}">Manage</button></td>

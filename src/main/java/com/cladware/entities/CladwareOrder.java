@@ -24,8 +24,6 @@ public class CladwareOrder implements Serializable{
     @Column
     private String paymentMethod;
     @Column
-    private int cardNumber;
-    @Column
     private String status;
     @Column
     private Date date;
@@ -36,5 +34,7 @@ public class CladwareOrder implements Serializable{
 
     public CladwareOrder(){
         this.date = new Date();
+        this.status = "Undelivered";
+        this.paymentMethod = "PayPal";
     }
 }

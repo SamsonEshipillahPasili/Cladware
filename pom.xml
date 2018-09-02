@@ -80,6 +80,12 @@
         </dependency>
 
         <dependency>
+            <groupId>com.paypal.sdk</groupId>
+            <artifactId>rest-api-sdk</artifactId>
+            <version>1.4.2</version>
+        </dependency>
+
+        <dependency>
             <groupId>org.xhtmlrenderer</groupId>
             <artifactId>flying-saucer-pdf</artifactId>
             <version>9.1.13</version>

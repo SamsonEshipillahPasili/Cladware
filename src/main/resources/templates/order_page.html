@@ -32,7 +32,9 @@
             <div class="row mb-2  mt-2">
                 <div class="col-7">
                     <div th:if="${param.orderPlaced}" class="alert alert-success">Order Placed Successfully!</div>
+                    <div th:if="${param.orderPlaced}" class="alert alert-info"><a th:href="@{/receipt}">Click to download receipt</a> <span class="close" data-dismiss="alert">&times;</span></div>
                     <div th:if="${param.error}" class="alert alert-danger">There was an error placing your order.</div>
+                    <div th:if="${param.cancelled}" class="alert alert-danger">Order not placed due to cancelled payment.</div>
                     <div class="card">
                         <div class="card-header">
                             <div class="card-title">
@@ -41,9 +43,9 @@
                         </div>
                         <div class="card-body">
                             <p th:if="${cart.getSize() <= 0}">No items in the cart</p>
-                            <form action="#" th:action="@{/placeOrder}" method="POST" th:if="${cart.getSize() > 0}">
+                            <form action="#" th:action="@{/pay}" method="POST" th:if="${cart.getSize() > 0}">
                                 <input type="text" readonly="readonly" class="form-control mt-2" required="required" th:value="${name}" placeholder="Name (Letters Only)" name="name" />
-                                <input type="text" class="form-control mt-2" pattern="[0-9]+"  required="required" placeholder="Phone Number (Digits Only)" name="phoneNumber"/>
+                               <input type="text" class="form-control mt-2" pattern="[0-9]+"  required="required" placeholder="Phone Number (Digits Only)" name="phoneNumber"/>
                                 <label class="mt-2">Country</label>
                                 <select class="custom-select" name="country" required="required">
                                     <option></option>
@@ -51,15 +53,15 @@
                                     <option>Tanzania</option>
                                     <option>Uganda</option>
                                 </select>
-                                <input type="text" class="form-control mt-2" pattern="[0-9a-zA-Z]+" placeholder="Postal Address" required="required" name="postalAddress" />
-                                <label class="mt-2">Payment Method</label>
+                                <input type="text" class="form-control mt-2" pattern="[0-9a-zA-Z\s]+" placeholder="Postal Address" required="required" name="postalAddress" />
+                                <!--<label class="mt-2">Payment Method</label>
                                 <select class="custom-select" required="required" name="paymentMethod">
                                     <option></option>
                                     <option>Paypal</option>
                                     <option>Visa</option>
                                     <option>MoneyGram</option>
-                                </select>
-                                <input type="text" class="form-control mt-2" pattern="[0-9]+" required="required" placeholder="Card Number (Digits Only)" name="cardNumber" />
+                                </select>-->
+                                <!--<input type="text" class="form-control mt-2" pattern="[0-9]+" required="required" placeholder="Card Number (Digits Only)" name="cardNumber" />-->
                                 <button type="submit" class="btn mt-2 btn-block btn-outline-dark">Place Order</button>
                             </form> 
                         </div>

@@ -136,7 +136,7 @@ public class CladwareActionControllers {
         return "redirect:/dashboard";
     }
 
-    @PostMapping("/placeOrder")
+    /*@PostMapping("/placeOrder")
     public String placeOrder(Principal principal, @RequestParam  String name, @RequestParam String phoneNumber,
                              @RequestParam String country, @RequestParam  String postalAddress, @RequestParam String paymentMethod,
                              @RequestParam String cardNumber){
@@ -166,6 +166,6 @@ public class CladwareActionControllers {
         }else{
             return "redirect:/order?error";
         }
-    }
+    }*/
 
 }
